@@ -1,7 +1,7 @@
 const questions = [
     {
         character: "SpongeBob",
-        image: "images/spongebob.png",
+        image: "img\[CITYPNG.COM]HD SpongeBob Transparent PNG - 2000x2000.png",
         correct: "Yellow",
         choices: ["Yellow", "Blue", "Red", "Green"]
     },
