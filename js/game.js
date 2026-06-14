@@ -1,7 +1,7 @@
 const questions = [
     {
         character: "SpongeBob",
-        image: "img/[CITYPNG.COM]HD SpongeBob Transparent PNG - 2000x2000.png",
+        image: "images/[CITYPNG.COM]HD SpongeBob Transparent PNG - 2000x2000.png",
         correct: "Yellow",
         choices: ["Yellow", "Blue", "Red", "Green"]
     },
@@ -62,6 +62,10 @@ function loadQuestion() {
 
     const q = questions[current];
 
+    // Display the image
+    document.getElementById("character-image").src = q.image;
+    document.getElementById("character-image").alt = q.character;
+
     document.getElementById("character").textContent = q.character;
     document.getElementById("result").textContent = "";
 
@@ -79,23 +83,3 @@ function loadQuestion() {
         buttonsDiv.appendChild(btn);
     });
 }
-
-function checkAnswer(selected) {
-    const q = questions[current];
-
-    if (selected === q.correct) {
-        score++;
-        document.getElementById("result").textContent = "✅ Correct!";
-    } else {
-        document.getElementById("result").textContent =
-            `❌ Wrong! The correct answer was ${q.correct}.`;
-    }
-
-    document.getElementById("score").textContent = `Score: ${score}`;
-
-    current++;
-
-    setTimeout(loadQuestion, 1200);
-}
-
-loadQuestion();
