@@ -53,6 +53,7 @@ let score = 0;
 
 function loadQuestion() {
     if (current >= questions.length) {
+        document.getElementById("character-image").style.display = "none";
         document.getElementById("character").innerHTML =
             `🏆 Game Over! Final Score: ${score}/${questions.length}`;
         document.getElementById("buttons").innerHTML = "";
@@ -62,13 +63,17 @@ function loadQuestion() {
 
     const q = questions[current];
 
-    // Display the image
-    document.getElementById("character-image").src = q.image;
-    document.getElementById("character-image").alt = q.character;
+    // IMAGE
+    const img = document.getElementById("character-image");
+    img.src = q.image;
+    img.alt = q.character;
+    img.style.display = "block";
 
+    // TEXT
     document.getElementById("character").textContent = q.character;
     document.getElementById("result").textContent = "";
 
+    // BUTTONS
     const buttonsDiv = document.getElementById("buttons");
     buttonsDiv.innerHTML = "";
 
@@ -78,8 +83,28 @@ function loadQuestion() {
         btn.className = "color-btn";
         btn.style.backgroundColor = colorMap[color] || "gray";
 
-        btn.addEventListener("click", () => checkAnswer(color));
+        btn.onclick = () => checkAnswer(color);
 
         buttonsDiv.appendChild(btn);
     });
 }
+
+function checkAnswer(selected) {
+    const q = questions[current];
+
+    if (selected === q.correct) {
+        score++;
+        document.getElementById("result").textContent = "✅ Correct!";
+    } else {
+        document.getElementById("result").textContent =
+            `❌ Wrong! The correct answer was ${q.correct}.`;
+    }
+
+    document.getElementById("score").textContent = `Score: ${score}`;
+
+    current++;
+
+    setTimeout(loadQuestion, 1000);
+}
+
+loadQuestion();
