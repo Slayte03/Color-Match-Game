@@ -107,13 +107,9 @@ const colorMap = {
     Orange: "orange"
 };
 
-const colorPicker = document.getElementById("colorPicker");
-const overlay = document.getElementById("color-overlay");
-
-colorPicker.addEventListener("input", function () {
-    overlay.style.backgroundColor = this.value;
-});
-
+// =====================
+// SHUFFLE
+// =====================
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -121,26 +117,47 @@ function shuffleArray(array) {
     }
 }
 
+// =====================
+// GAME STATE
+// =====================
 let current = 0;
 let score = 0;
 
+// =====================
+// ELEMENTS
+// =====================
+const colorPicker = document.getElementById("colorPicker");
+const colorLayer = document.getElementById("color-layer");
+
+// =====================
+// REAL-TIME COLOR CHANGE
+// =====================
+colorPicker.addEventListener("input", function () {
+    colorLayer.style.backgroundColor = this.value;
+});
+
+// =====================
+// LOAD QUESTION
+// =====================
 function loadQuestion() {
     if (current >= questions.length) {
         document.getElementById("character-image").style.display = "none";
-        document.getElementById("colorPicker").style.display = "none";
+        document.getElementById("color-layer").style.display = "none";
 
-        document.getElementById("question").innerHTML =
+        document.getElementById("question").textContent =
             `🏆 Final Score: ${score}/${questions.length * 10}`;
-
-        document.getElementById("result").textContent = "";
-
         return;
     }
 
     const q = questions[current];
 
-    document.getElementById("character-image").src = q.image;
-    document.getElementById("character-image").alt = q.character;
+    const img = document.getElementById("character-image");
+
+    img.src = q.image;
+    img.alt = q.character;
+
+    // reset overlay color
+    colorLayer.style.backgroundColor = "transparent";
 
     document.getElementById("question").textContent =
         `What is the color of ${q.character}'s ${q.part}?`;
@@ -148,9 +165,11 @@ function loadQuestion() {
     document.getElementById("result").textContent = "";
 }
 
+// =====================
+// COLOR CONVERSION
+// =====================
 function hexToRgb(hex) {
     hex = hex.replace("#", "");
-
     return {
         r: parseInt(hex.substring(0, 2), 16),
         g: parseInt(hex.substring(2, 4), 16),
@@ -158,6 +177,9 @@ function hexToRgb(hex) {
     };
 }
 
+// =====================
+// SCORING
+// =====================
 function calculatePoints(selected, correct) {
     const c1 = hexToRgb(selected);
     const c2 = hexToRgb(correct);
@@ -168,23 +190,21 @@ function calculatePoints(selected, correct) {
         Math.pow(c1.b - c2.b, 2)
     );
 
-    const maxDistance = Math.sqrt(
-        Math.pow(255, 2) +
-        Math.pow(255, 2) +
-        Math.pow(255, 2)
-    );
+    const maxDistance = Math.sqrt(3 * Math.pow(255, 2));
 
     const similarity = 1 - (distance / maxDistance);
 
     return Math.max(0, Math.round(similarity * 10));
 }
 
+// =====================
+// ANSWER CHECK
+// =====================
 function checkAnswer() {
-    const selected = document.getElementById("colorPicker").value;
+    const selected = colorPicker.value;
     const correct = questions[current].correctColor;
 
     const points = calculatePoints(selected, correct);
-
     score += points;
 
     document.getElementById("result").textContent =
@@ -193,17 +213,13 @@ function checkAnswer() {
     document.getElementById("score").textContent =
         `Score: ${score}`;
 
-    // 👇 APPLY COLOR TO IMAGE PART
-    const overlay = document.getElementById("color-overlay");
-
     current++;
 
-    setTimeout(() => {
-        // reset overlay for next question
-        document.getElementById("color-overlay").style.backgroundColor = "transparent";
-        loadQuestion();
-    }, 1500);
+    setTimeout(loadQuestion, 1200);
 }
 
+// =====================
+// START GAME
+// =====================
 shuffleArray(questions);
 loadQuestion();
