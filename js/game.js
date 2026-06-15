@@ -59,7 +59,7 @@ function loadQuestion() {
         document.getElementById("colorPicker").style.display = "none";
 
         document.getElementById("question").innerHTML =
-    `🏆 Final Score: ${score}/${questions.length * 10}`;
+            `🏆 Final Score: ${score}/${questions.length * 10}`;
 
         document.getElementById("result").textContent = "";
 
@@ -126,3 +126,5 @@ function checkAnswer() {
 
     setTimeout(loadQuestion, 1500);
 }
+
+loadQuestion();
