@@ -4,20 +4,20 @@ const questions = [
     {
         character: "SpongeBob",
         image: "images/[CITYPNG.COM]HD SpongeBob Transparent PNG - 2000x2000.png",
-        correct: "Yellow",
-        choices: ["Yellow", "Blue", "Red", "Green"]
+        part: "body",
+        correctColor: "#F8D63D"
     },
     {
-        character: "Patrick Star",
+        character: "Patrick",
         image: "images/patrick.png",
-        correct: "Pink",
-        choices: ["Pink", "Orange", "Purple", "Blue"]
+        part: "body",
+        correctColor: "#FF9BC1"
     },
     {
         character: "Shrek",
         image: "images/shrek.png",
-        correct: "Green",
-        choices: ["Green", "Yellow", "Red", "Blue"]
+        part: "skin",
+        correctColor: "#7FBF4D"
     },
     {
         character: "Mickey Mouse",
@@ -91,22 +91,17 @@ function loadQuestion() {
     });
 }
 
-function checkAnswer(selected) {
-    const q = questions[current];
+function checkAnswer() {
+    const selected =
+        document.getElementById("colorPicker").value;
 
-    if (selected === q.correct) {
-        score++;
-        document.getElementById("result").textContent = "✅ Correct!";
-    } else {
-        document.getElementById("result").textContent =
-            `❌ Wrong! The correct answer was ${q.correct}.`;
+    const correct =
+        questions[current].correctColor;
+
+    if (selected.toLowerCase() === correct.toLowerCase()) {
+        score += 100;
     }
 
-    document.getElementById("score").textContent = `Score: ${score}`;
-
     current++;
-
-    setTimeout(loadQuestion, 1000);
+    loadQuestion();
 }
-
-loadQuestion();

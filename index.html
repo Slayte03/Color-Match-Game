@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,19 @@
 <body>
 
     <h1>🎨 Cartoon Color Match</h1>
-    <p>Choose the color most associated with the character!</p>
+    <h2 id="question"></h2>
 
-    <div id="score">Score: 0</div>
+    <img id="character-image">
 
-    <img id="character-image" src="" alt="Character">
+    <input type="color" id="colorPicker">
 
-    <div id="character"></div>
-
-    <div id="buttons"></div>
+    <button id="submitBtn">
+        Submit
+    </button>
 
     <div id="result"></div>
+    <div id="score"></div>
 
 </body>
+
 </html>
