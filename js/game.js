@@ -1,3 +1,5 @@
+console.log("Game JS loaded");
+
 const questions = [
     {
         character: "SpongeBob",
