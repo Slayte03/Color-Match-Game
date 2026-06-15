@@ -3,7 +3,7 @@ console.log("Game JS loaded");
 const questions = [
     {
         character: "SpongeBob",
-        image: "images/[CITYPNG.COM]HD SpongeBob Transparent PNG - 2000x2000.png",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/SpongeBob_SquarePants_character.png/960px-SpongeBob_SquarePants_character.png",
         part: "body",
         correctColor: "#F8D63D"
     },
