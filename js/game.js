@@ -107,6 +107,13 @@ const colorMap = {
     Orange: "orange"
 };
 
+const colorPicker = document.getElementById("colorPicker");
+const overlay = document.getElementById("color-overlay");
+
+colorPicker.addEventListener("input", function () {
+    overlay.style.backgroundColor = this.value;
+});
+
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -188,7 +195,6 @@ function checkAnswer() {
 
     // 👇 APPLY COLOR TO IMAGE PART
     const overlay = document.getElementById("color-overlay");
-    overlay.style.backgroundColor = selected;
 
     current++;
 
