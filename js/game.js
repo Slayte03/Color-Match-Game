@@ -22,20 +22,20 @@ const questions = [
     {
         character: "Mickey Mouse",
         image: "images/mickey.png",
-        correct: "Red",
-        choices: ["Purple", "Red", "Green", "Brown"]
+        part: "shorts",
+        correctColor: "#D62828"
     },
     {
         character: "Smurf",
         image: "images/smurf.png",
-        correct: "Blue",
-        choices: ["Blue", "Red", "Yellow", "Pink"]
+        part: "skin",
+        correctColor: "#4DA6FF"
     },
     {
         character: "Scooby-Doo",
         image: "images/scooby.png",
-        correct: "Brown",
-        choices: ["Brown", "Blue", "Green", "Pink"]
+        part: "fur",
+        correctColor: "#8B5A2B"
     }
 ];
 
@@ -56,39 +56,21 @@ let score = 0;
 function loadQuestion() {
     if (current >= questions.length) {
         document.getElementById("character-image").style.display = "none";
-        document.getElementById("character").innerHTML =
-            `🏆 Game Over! Final Score: ${score}/${questions.length}`;
-        document.getElementById("buttons").innerHTML = "";
-        document.getElementById("result").innerHTML = "";
+        document.getElementById("question").textContent = "";
+        document.getElementById("result").textContent =
+            `🏆 Game Over! Final Score: ${score}`;
         return;
     }
 
     const q = questions[current];
 
-    // IMAGE
-    const img = document.getElementById("character-image");
-    img.src = q.image;
-    img.alt = q.character;
-    img.style.display = "block";
+    document.getElementById("character-image").src = q.image;
+    document.getElementById("character-image").alt = q.character;
 
-    // TEXT
-    document.getElementById("character").textContent = q.character;
+    document.getElementById("question").textContent =
+        `What is the color of ${q.character}'s ${q.part}?`;
+
     document.getElementById("result").textContent = "";
-
-    // BUTTONS
-    const buttonsDiv = document.getElementById("buttons");
-    buttonsDiv.innerHTML = "";
-
-    q.choices.forEach(color => {
-        const btn = document.createElement("button");
-        btn.textContent = color;
-        btn.className = "color-btn";
-        btn.style.backgroundColor = colorMap[color] || "gray";
-
-        btn.onclick = () => checkAnswer(color);
-
-        buttonsDiv.appendChild(btn);
-    });
 }
 
 function checkAnswer() {
@@ -100,8 +82,14 @@ function checkAnswer() {
 
     if (selected.toLowerCase() === correct.toLowerCase()) {
         score += 100;
+        document.getElementById("result").textContent =
+            "✅ Perfect match!";
+    } else {
+        document.getElementById("result").textContent =
+            `❌ Correct color was ${correct}`;
     }
 
     current++;
-    loadQuestion();
+
+    setTimeout(loadQuestion, 1500);
 }
