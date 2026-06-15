@@ -56,9 +56,13 @@ let score = 0;
 function loadQuestion() {
     if (current >= questions.length) {
         document.getElementById("character-image").style.display = "none";
-        document.getElementById("question").textContent = "";
-        document.getElementById("result").textContent =
-            `🏆 Game Over! Final Score: ${score}`;
+        document.getElementById("colorPicker").style.display = "none";
+
+        document.getElementById("question").innerHTML =
+    `🏆 Final Score: ${score}/${questions.length * 10}`;
+
+        document.getElementById("result").textContent = "";
+
         return;
     }
 
@@ -73,21 +77,50 @@ function loadQuestion() {
     document.getElementById("result").textContent = "";
 }
 
+function hexToRgb(hex) {
+    hex = hex.replace("#", "");
+
+    return {
+        r: parseInt(hex.substring(0, 2), 16),
+        g: parseInt(hex.substring(2, 4), 16),
+        b: parseInt(hex.substring(4, 6), 16)
+    };
+}
+
+function calculatePoints(selected, correct) {
+    const c1 = hexToRgb(selected);
+    const c2 = hexToRgb(correct);
+
+    const distance = Math.sqrt(
+        Math.pow(c1.r - c2.r, 2) +
+        Math.pow(c1.g - c2.g, 2) +
+        Math.pow(c1.b - c2.b, 2)
+    );
+
+    const maxDistance = Math.sqrt(
+        Math.pow(255, 2) +
+        Math.pow(255, 2) +
+        Math.pow(255, 2)
+    );
+
+    const similarity = 1 - (distance / maxDistance);
+
+    return Math.max(0, Math.round(similarity * 10));
+}
+
 function checkAnswer() {
-    const selected =
-        document.getElementById("colorPicker").value;
+    const selected = document.getElementById("colorPicker").value;
+    const correct = questions[current].correctColor;
 
-    const correct =
-        questions[current].correctColor;
+    const points = calculatePoints(selected, correct);
 
-    if (selected.toLowerCase() === correct.toLowerCase()) {
-        score += 100;
-        document.getElementById("result").textContent =
-            "✅ Perfect match!";
-    } else {
-        document.getElementById("result").textContent =
-            `❌ Correct color was ${correct}`;
-    }
+    score += points;
+
+    document.getElementById("result").textContent =
+        `You earned ${points}/10 points!`;
+
+    document.getElementById("score").textContent =
+        `Score: ${score}`;
 
     current++;
 
