@@ -129,6 +129,12 @@ let score = 0;
 const colorPicker = document.getElementById("colorPicker");
 const colorLayer = document.getElementById("color-layer");
 
+if (colorPicker && colorLayer) {
+    colorPicker.addEventListener("input", function () {
+        colorLayer.style.backgroundColor = this.value;
+    });
+}
+
 // =====================
 // REAL-TIME COLOR CHANGE
 // =====================
